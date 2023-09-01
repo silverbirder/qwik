@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("signals", () => {
   test.beforeEach(async ({ page }) => {
@@ -584,5 +584,12 @@ test.describe("regressions", () => {
     await page.locator("button").click();
     await expect(page.locator(".standalone > .binding")).toHaveText("UPDATE");
     await expect(page.locator(".loop > .binding")).toHaveText("UPDATE");
+  });
+
+  test("issue 5001", async ({ page }) => {
+    await page.goto("/e2e/signals/issue-5001");
+    await expect(page.locator(".count")).toHaveText("0");
+    await page.locator("button").click();
+    await expect(page.locator(".count")).toHaveText("1");
   });
 });
